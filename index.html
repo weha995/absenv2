@@ -42,6 +42,14 @@
       font-size: 14px;
       color: red;
     }
+
+    iframe {
+      margin-top: 20px;
+      width: 100%;
+      height: 500px;
+      border: none;
+      display: none; /* Hidden by default */
+    }
   </style>
 </head>
 <body>
@@ -49,6 +57,7 @@
     <h1>Absensi Geolokasi</h1>
     <button id="absenButton">Absen Sekarang</button>
     <p id="message"></p>
+    <iframe id="formIframe" src="https://forms.gle/4v3cntB1H5XjcaNE9"></iframe>
   </div>
   <script>
     // Lokasi target
@@ -76,6 +85,7 @@
 
     document.getElementById('absenButton').addEventListener('click', () => {
       const messageElement = document.getElementById('message');
+      const formIframe = document.getElementById('formIframe');
 
       if (!navigator.geolocation) {
         messageElement.textContent = 'Geolokasi tidak didukung oleh browser Anda.';
@@ -95,8 +105,12 @@
           );
 
           if (distance <= allowedRadius) {
-            window.location.href = 'https://forms.gle/4v3cntB1H5XjcaNE9'; // Ganti dengan URL Google Form Anda
+            // Tampilkan iframe jika berada dalam jangkauan
+            messageElement.textContent = '';
+            formIframe.style.display = 'block';
           } else {
+            // Sembunyikan iframe dan tampilkan pesan
+            formIframe.style.display = 'none';
             messageElement.textContent = 'Anda berada di luar jangkauan.';
           }
         },
